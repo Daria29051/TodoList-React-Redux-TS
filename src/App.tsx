@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TodoList } from './components/TodoList';
+import { TodoList } from './features/Todo/TodoList';
 import { NewTodoForm } from './components/NewTodoForm';
 import { NewTodoFormRef } from './components/NewTodoFormRef';
 import { Todo } from './components/types';
