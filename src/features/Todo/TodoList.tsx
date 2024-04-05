@@ -1,20 +1,33 @@
 import React from 'react'
-import { Todo } from 'components/types';
 import { TodoItem } from 'components/TodoItem';
+import { Todo } from 'types';
+import { useAppDispatch} from 'redux-hooks';
+import { removeTodo, toggleTodo } from './todoSlice';
+import { useSelector } from 'react-redux';
+import { selectAllTodos } from './todoSelectors';
 
-interface TodoListPros {
-    list: Todo[],
-    toggleTodo: (id: Todo['id'])=> void,
-    removeTodo: (id: Todo['id'])=> void,
-}
 
-export const TodoList = ({list, toggleTodo, removeTodo} : TodoListPros) => {
+const TodoList = ()=> {
+  // const list  = useAppSelector(state=> state.todos);//так пишем если нет файла todoSelectors.ts
+  const list  = useSelector(selectAllTodos);
+  const dispatch = useAppDispatch();
+
+  const handleRemoveTodo = (id: Todo['id'])=> {
+    dispatch(removeTodo(id));
+  }
+
+  const handleToggleTodo = (id: Todo['id'])=> {
+    dispatch(toggleTodo(id));
+  }
+
   return (
     <ul>
-        {list.map((todo)=> (
-        <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo}  removeTodo={removeTodo}/>
-    ) )}
+      {list.map((todo)=> (
+        <TodoItem key={todo.id} toggleTodo={handleToggleTodo} removeTodo={handleRemoveTodo} {...todo}/>
+      ))}
     </ul>
-
   )
 }
+
+
+export default TodoList;

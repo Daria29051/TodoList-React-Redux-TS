@@ -1,5 +1,6 @@
 import React from 'react';
-import { Todo } from './types';
+import { Todo } from '../types';
+
 
 interface TodoItemProps extends Todo {
     toggleTodo: (id: Todo['id'])=> void,
