@@ -4,12 +4,25 @@ import { AsyncTodoSlice } from "./asyncTodoSlice";
 
 
 
-export const fetchAllTodos = createAsyncThunk(
+
+export const fetchAllTodos = createAsyncThunk<
+Todo[], //что возвращаем
+undefined, // что принимает на вход async функция
+{state: {asyncTodos: AsyncTodoSlice }} //thunk Config
+>(
     'todos/fetchTodos',
     async ()=> {
         const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10');
         return (await response.json()) as Todo[];
     },
+    { 
+        condition: (_, {getState}) => {
+        const {status} = getState().asyncTodos;
+        if (status === 'loading') {
+            return false;
+        }
+    },
+},
 );
 
 export const createTodo = createAsyncThunk(
